@@ -1,85 +1,59 @@
-# **Calculator Microservice**
+# Dockerized Web Application
 
-## Overview
+This repository demonstrates how to dockerize a simple Node.js web application using Docker and Docker Compose. It includes step-by-step instructions for setting up and running the application inside a Docker container.
 
-### This project is a simple calculator microservice built using Node.js and Express. The service provides basic arithmetic operations through RESTful API endpoints.
+## Steps to Get Started
 
-## Features
+### Step 1: Install Docker
 
-- Supports addition, subtraction, multiplication, and division
+1. Install Docker from the [official Docker website](https://www.docker.com/get-started) based on your OS.
+2. Verify the installation by running the following command:
 
-- Handles errors gracefully (e.g., invalid inputs, division by zero)
+   - bash
+   - docker --version
 
-- Provides meaningful error messages
+### Step 2: Clone the Sample Web Application
+- git clone https://github.com/your-repo/sample-web-app.git
+- cd sample-web-app
 
-- Lightweight and easy to deploy
+### Step 3: Create a Dockerfile
+```
+# Use Node.js base image
+FROM node:latest
 
-## Prerequisites
+# Set the working directory
+WORKDIR /app
 
-### Ensure you have the following installed before running the project:
+# Copy package.json and install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
 
-- Node.js: Download here
+# Copy the application code
+COPY . .
 
-- Git: Download here
+# Expose the application port
+EXPOSE 3000
 
-## Setup and Installation
+# Command to run the app
+CMD ["node", "server.js"]
+```
 
-### Follow these steps to set up and run the microservice:
+### Step 4: Build the Docker Image
+- docker build -t my-web-app .
 
-1. Clone the Repository
+### Step 5: Test the Application
+- docker ps
+- docker logs <container_id>
 
-- git clone https://github.com/username/sit323-2025-prac4p.git
-- cd sit323-2025-prac4p
-
-2. Install Dependencies
-
-- npm install
-
-3. Run the Microservice
-
-- node server.js
-
-### The service will be available at: http://localhost:3000
-
-## API Endpoints
-
-All operations are performed via GET requests with query parameters num1 and num2.
-| Endpoint | Description | Example |
-|----------|------------|---------|
-| `/add` | Adds two numbers | `/add?num1=5&num2=3` |
-| `/subtract` | Subtracts two numbers | `/subtract?num1=10&num2=4` |
-| `/multiply` | Multiplies two numbers | `/multiply?num1=6&num2=7` |
-| `/divide` | Divides two numbers | `/divide?num1=20&num2=5` |
-
-
-## Error Handling
-
-- Invalid Input: If num1 or num2 are missing or non-numeric, the service returns:
-
-    { "error": "Invalid input. Please provide two numbers." }
-
-- Division by Zero: If num2 is 0 in a division request, the service returns:
-
-    { "error": "Division by zero is not allowed." }
-
-- Unsupported Routes: If an unknown endpoint is accessed, the service returns:
-
-    { "error": "Endpoint not found" }
-
-## Contributing
-
-- Fork the repository
-
-- Create a new branch (git checkout -b feature-branch)
-
-- Commit your changes (git commit -m "Added a new feature")
-
-- Push to the branch (git push origin feature-branch)
-
-- Open a Pull Request
+### Step 6: Push the Docker Image to a Registry
+#### login into docker hub
+- docker login
+#### tag the image
+- docker tag my-web-app your-dockerhub-username/my-web-app
+#### push respo into docker hub
+- docker push your-dockerhub-username/my-web-app
 
 
-## Author: **Saksham**
 
-### GitHub: https://github.com/JSKSHM-DRK
+
 
